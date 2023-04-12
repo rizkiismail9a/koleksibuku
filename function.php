@@ -31,12 +31,19 @@ function tambahBuku($books)
     mysqli_query($connect, $input);
     return mysqli_affected_rows($connect);
 }
-
+//Ini untuk hapus.php
 function hapus($id)
 {
     global $connect;
     mysqli_query($connect, "DELETE FROM koleksibuku WHERE id=$id");
     return mysqli_affected_rows($connect);
+}
+
+//Ini untuk cariBuku
+function cariBuku($keyword)
+{
+    $query = "SELECT * FROM koleksibuku WHERE judul LIKE '%$keyword%' OR pengarang LIKE '%$keyword%' OR penerbit LIKE '%$keyword%' OR tahunterbit LIKE '%$keyword%'";
+    return tampilkanData($query);
 }
 ;
 ?>
