@@ -39,6 +39,22 @@ function hapus($id)
     return mysqli_affected_rows($connect);
 }
 
+
+//Ini untuk edit.php
+function editBuku($books, $id)
+{
+    global $connect;
+    $judul = htmlspecialchars($books['judul']);
+    $pengarang = htmlspecialchars($books['pengarang']);
+    $penerbit = htmlspecialchars($books['penerbit']);
+    $tahunterbit = htmlspecialchars($books['tahunterbit']);
+    $sampul = htmlspecialchars($books['sampul']);
+
+    $input = "UPDATE koleksibuku SET sampul='$sampul', judul='$judul', pengarang='$pengarang', penerbit='$penerbit', tahunterbit='$tahunterbit' WHERE id=$id";
+
+    mysqli_query($connect, $input);
+    return mysqli_affected_rows($connect);
+}
 //Ini untuk cariBuku
 function cariBuku($keyword)
 {
