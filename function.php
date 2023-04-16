@@ -24,13 +24,49 @@ function tambahBuku($books)
     $pengarang = htmlspecialchars($books['pengarang']);
     $penerbit = htmlspecialchars($books['penerbit']);
     $tahunterbit = htmlspecialchars($books['tahunterbit']);
-    $sampul = htmlspecialchars($books['sampul']);
+    $sampul = upload();
+    if ($sampul == false) {
+        return false;
+    }
+    ;
 
     $input = "INSERT INTO koleksibuku VALUES('', '$sampul', '$judul', '$pengarang', '$penerbit', '$tahunterbit')";
 
     mysqli_query($connect, $input);
     return mysqli_affected_rows($connect);
 }
+//Untuk handle gambar
+function upload()
+{
+    $namaFile = $_FILES['sampul']['name'];
+    $sizeFile = $_FILES['sampul']['size'];
+    $namaTmp = $_FILES['sampul']['tmp_name'];
+    $error = $_FILES['sampul']['error'];
+
+    if ($error === 4) {
+        echo "<script> alert('sampulnya mana?') </script>";
+        return false;
+    }
+
+    $fileValid = ['jpg', 'jpeg', 'png', 'gif'];
+    $separator = explode('.', $namaFile);
+    $separator = strtolower(end($separator));
+
+    if (!in_array($separator, $fileValid)) {
+        echo "<scipt> alert('gambarnya mana?') </script>";
+        return false;
+    }
+    ;
+    if ($sizeFile > 3000000) {
+        echo "<scipt> alert('kegedean gambarnya?') </script>";
+        return false;
+    }
+    ;
+    $namaFileBaru = uniqid() . "." . $separator;
+    move_uploaded_file($namaTmp, 'img/' . $namaFileBaru);
+    return $namaFileBaru;
+}
+;
 //Ini untuk hapus.php
 function hapus($id)
 {

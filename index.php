@@ -56,8 +56,8 @@ if (isset($_POST['cari'])) {
                 <td>
                     <?= $buku['tahunterbit']; ?>
                 </td>
-                <td><a href="hapus.php?id=<?= $buku['id']; ?>" onclick="confirm('yakin mau dibuang?');">Hapus</a> | <a
-                        href="edit.php?id=<?= $buku['id']; ?>">Edit</a> </td>
+                <td><a href="hapus.php?id=<?= $buku['id']; ?>" onclick="return confirm('yakin mau dibuang?');">Hapus</a> |
+                    <a href="edit.php?id=<?= $buku['id']; ?>">Edit</a> </td>
             </tr>
         <?php endforeach ?>
     </table>
