@@ -1,8 +1,17 @@
 <?php
+session_start();
+if (!isset($_SESSION['login'])) {
+    header("location: login.php");
+    exit;
+}
 require 'function.php';
 if (isset($_POST['submit'])) {
     // var_dump($_POST);
     // var_dump($_FILES);
+    // $namaTmp = $_FILES['sampul']['tmp_name'];
+    // $fileValid = ['jpg', 'jpeg', 'png', 'gif'];
+    // $fileExtension = strtolower(pathinfo($_FILES['sampul']['name'], PATHINFO_EXTENSION));
+    // var_dump($fileExtension);
     // die;
     if (tambahBuku($_POST) > 0) {
         echo "<script>
@@ -11,7 +20,7 @@ if (isset($_POST['submit'])) {
         </script>";
 
     } else {
-        echo "<p>Ada yang salah, nih</p>";
+        echo "<script>alert(Ada yang salah, nih);</script>";
     }
     ;
 
@@ -37,13 +46,13 @@ if (isset($_POST['submit'])) {
         <div class="container">
             <div class="form-wrapper">
                 <label for="judul">Judul</label>
-                <input required type="text" id="judul" name="judul">
+                <input required type="text" id="judul" name="judul" autocomplete="off">
                 <label for="pengarang">Pengarang</label>
-                <input required type="text" id="pengarang" name="pengarang">
+                <input required type="text" id="pengarang" name="pengarang" autocomplete="off">
                 <label for="penerbit">Penerbit</label>
-                <input required type="text" id="penerbit" name="penerbit">
+                <input required type="text" id="penerbit" name="penerbit" autocomplete="off">
                 <label for="tahunterbit">Tahun Terbit</label>
-                <input required type="text" id="tahunterbit" name="tahunterbit">
+                <input required type="text" id="tahunterbit" name="tahunterbit" autocomplete="off">
                 <label for="sampul">Sampul</label>
                 <input required type="file" id="sampul" name="sampul">
                 <button type="submit" name="submit">Tambah Buku</button>

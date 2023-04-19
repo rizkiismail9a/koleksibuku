@@ -42,3 +42,8 @@ button {
   padding: 10px;
   align-self: center;
 }
+.oldImage {
+  width: 200px;
+  height: auto;
+  margin: 20px auto;
+}

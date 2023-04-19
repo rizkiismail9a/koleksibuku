@@ -44,3 +44,11 @@ a {
 .addOrSearch button:hover {
   cursor: pointer;
 }
+.confirmPass {
+  color: red;
+  font-style: italic;
+}
+.logout-wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+}

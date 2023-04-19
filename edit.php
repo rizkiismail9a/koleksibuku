@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (!isset($_SESSION['login'])) {
+    header("location: login.php");
+    exit;
+}
 require 'function.php';
 $id = $_GET['id'];
 
@@ -29,15 +34,16 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style/tambahBuku.css">
+    <link rel="stylesheet" href="style/tambahBuku.css?<?= time(); ?>">
     <title>Edit Buku</title>
 </head>
 
 <body>
     <h1>Ada yang salah?</h1>
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         <div class="container">
             <div class="form-wrapper">
+                <input type="hidden" name="sampulLama" id="" value="<?= $bukuYangAkanDiedit['sampul']; ?>">
                 <label for="judul">Judul</label>
                 <input required type="text" id="judul" name="judul" value="<?= $bukuYangAkanDiedit['judul']; ?>">
                 <label for="pengarang">Pengarang</label>
@@ -50,7 +56,8 @@ if (isset($_POST['submit'])) {
                 <input required type="text" id="tahunterbit" name="tahunterbit"
                     value="<?= $bukuYangAkanDiedit['tahunterbit']; ?>">
                 <label for="sampul">Sampul</label>
-                <input required type="text" id="sampul" name="sampul" value="<?= $bukuYangAkanDiedit['sampul']; ?>">
+                <img src="img/<?= $bukuYangAkanDiedit['sampul']; ?>" class="oldImage">
+                <input type="file" id="sampul" name="sampul" value="<?= $bukuYangAkanDiedit['sampul']; ?>">
                 <button type="submit" name="submit">Edit Buku</button>
             </div>
         </div>

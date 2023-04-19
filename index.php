@@ -1,5 +1,13 @@
 <?php
+session_start();
+if (!isset($_SESSION['login'])) {
+    header("location: login.php");
+    exit;
+}
 require 'function.php';
+
+
+
 $dataBuku = tampilkanData('SELECT * FROM koleksibuku');
 if (isset($_POST['cari'])) {
     $dataBuku = cariBuku($_POST["keyword"]);
@@ -21,6 +29,9 @@ if (isset($_POST['cari'])) {
 </head>
 
 <body>
+    <div class="logout-wrapper">
+        <a class="logout" href="logout.php">Keluar</a>
+    </div>
     <h1>Perpustakaanku</h1>
     <div class="addOrSearch">
         <a class="tambah" href="tambahBuku.php">Tambah Buku</a>
@@ -57,7 +68,8 @@ if (isset($_POST['cari'])) {
                     <?= $buku['tahunterbit']; ?>
                 </td>
                 <td><a href="hapus.php?id=<?= $buku['id']; ?>" onclick="return confirm('yakin mau dibuang?');">Hapus</a> |
-                    <a href="edit.php?id=<?= $buku['id']; ?>">Edit</a> </td>
+                    <a href="edit.php?id=<?= $buku['id']; ?>">Edit</a>
+                </td>
             </tr>
         <?php endforeach ?>
     </table>
