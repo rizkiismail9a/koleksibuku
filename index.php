@@ -6,14 +6,33 @@ if (!isset($_SESSION['login'])) {
 }
 require 'function.php';
 
-
-
-$dataBuku = tampilkanData('SELECT * FROM koleksibuku');
-if (isset($_POST['cari'])) {
-    $dataBuku = cariBuku($_POST["keyword"]);
+$query = mysqli_query($connect, "SELECT * FROM koleksibuku");
+$booksAvailable = mysqli_num_rows($query); // ada 10
+$booksPerPage = 4;
+$totalOfPages = ceil($booksAvailable / $booksPerPage); //3 halaman
+$indexStart = 0;
+if (isset($_GET['halaman'])) {
+    $activePage = $_GET['halaman'];
+} else {
+    $activePage = 1;
+}
+if ($activePage == 1) {
+    $indexStart = 0;
+} else {
+    $indexStart = 0 + ($activePage - 1) * 4;
 }
 ;
 
+$dataBuku = tampilkanData("SELECT * FROM koleksibuku LIMIT $indexStart, $booksPerPage");
+
+
+if (isset($_POST['cari'])) {
+    $dataBuku = cariBuku($_POST["keyword"]);
+    $totalOfPages = ceil(count($dataBuku) / 4);
+}
+;
+
+$nomor = 1;
 ?>
 
 
@@ -51,9 +70,13 @@ if (isset($_POST['cari'])) {
             <th>Tahun Terbit</th>
             <th>Aksi</th>
         </tr>
+
         <?php foreach ($dataBuku as $buku): ?>
             <tr class="baris">
-                <td class="nomor">1</td>
+                <td class="nomor">
+                    <?php echo $nomor; ?>
+                    <?php $nomor++; ?>
+                </td>
                 <td><img src="img/<?= $buku['sampul']; ?> " alt="" srcset=""></td>
                 <td>
                     <?= $buku['judul']; ?>
@@ -73,8 +96,34 @@ if (isset($_POST['cari'])) {
             </tr>
         <?php endforeach ?>
     </table>
+    <?php if (count($dataBuku) < 1): ?>
+        <h1>Belum punya buku itu 😭</h1>
+    <?php endif ?>
 
-    <script src="script/script.js"></script>
+    <?php if ($activePage > 1): ?>
+        <a class="navigasi blue" href="?halaman=<?= $activePage - 1; ?>">
+            &leftarrow;
+        </a>
+    <?php endif; ?>
+
+    <?php for ($i = 1; $i <= $totalOfPages; $i++): ?>
+        <?php if ($i == $activePage): ?>
+            <a class="navigasi blue" href="?halaman=<?= $i + 1; ?>">
+                <?php echo $i; ?>
+            </a>
+        <?php else: ?>
+            <a class="navigasi" href="?halaman=<?= $i; ?>">
+                <?php echo $i; ?>
+            </a>
+        <?php endif; ?>
+    <?php endfor; ?>
+
+    <?php if ($activePage < 3): ?>
+        <a class="navigasi blue" href="?halaman=<?= $activePage + 1; ?>">
+            &rightarrow;
+        </a>
+    <?php endif; ?>
+    <script src=" script/script.js"></script>
 </body>
 
 </html>
