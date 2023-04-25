@@ -4,6 +4,9 @@ if (!isset($_SESSION['login'])) {
     header("location: login.php");
     exit;
 }
+
+
+
 require 'function.php';
 
 $query = mysqli_query($connect, "SELECT * FROM koleksibuku");
@@ -26,9 +29,9 @@ if ($activePage == 1) {
 $dataBuku = tampilkanData("SELECT * FROM koleksibuku LIMIT $indexStart, $booksPerPage");
 
 
-if (isset($_POST['cari'])) {
+if (isset($_POST['keyword'])) {
     $dataBuku = cariBuku($_POST["keyword"]);
-    $totalOfPages = ceil(count($dataBuku) / 4);
+
 }
 ;
 
@@ -56,74 +59,85 @@ $nomor = 1;
         <a class="tambah" href="tambahBuku.php">Tambah Buku</a>
         <form action="" method="post">
             <input type="text" name="keyword" autocomplete="off" placeholder="cari judul, pengarang, atau penerbit"
-                required>
-            <button type="submit" name="cari">Cari Buku</button>
+                class="pencarian" required>
+            <button type="submit" name="cari" class="tombol-cari">Cari Buku</button>
         </form>
     </div>
-    <table border="1" cellpadding="10" cellspacing="0">
-        <tr>
-            <th>No.</th>
-            <th>Sampul</th>
-            <th>Judul</th>
-            <th>Pengarang</th>
-            <th>Penerbit</th>
-            <th>Tahun Terbit</th>
-            <th>Aksi</th>
-        </tr>
-
-        <?php foreach ($dataBuku as $buku): ?>
-            <tr class="baris">
-                <td class="nomor">
-                    <?php echo $nomor; ?>
-                    <?php $nomor++; ?>
-                </td>
-                <td><img src="img/<?= $buku['sampul']; ?> " alt="" srcset=""></td>
-                <td>
-                    <?= $buku['judul']; ?>
-                </td>
-                <td>
-                    <?= $buku['pengarang']; ?>
-                </td>
-                <td>
-                    <?= $buku['penerbit']; ?>
-                </td>
-                <td>
-                    <?= $buku['tahunterbit']; ?>
-                </td>
-                <td><a href="hapus.php?id=<?= $buku['id']; ?>" onclick="return confirm('yakin mau dibuang?');">Hapus</a> |
-                    <a href="edit.php?id=<?= $buku['id']; ?>">Edit</a>
-                </td>
+    <div class="table-wrapper">
+        <table border="1" cellpadding="10" cellspacing="0">
+            <tr>
+                <th>No.</th>
+                <th>Sampul</th>
+                <th>Judul</th>
+                <th>Pengarang</th>
+                <th>Penerbit</th>
+                <th>Tahun Terbit</th>
+                <th>Aksi</th>
             </tr>
-        <?php endforeach ?>
-    </table>
+
+            <?php foreach ($dataBuku as $buku): ?>
+                <tr class="baris">
+                    <td class="nomor">
+                        <?php echo $nomor; ?>
+                        <?php $nomor++; ?>
+                    </td>
+                    <td><img src="img/<?= $buku['sampul']; ?> " alt="" srcset=""></td>
+                    <td>
+                        <?= $buku['judul']; ?>
+                    </td>
+                    <td>
+                        <?= $buku['pengarang']; ?>
+                    </td>
+                    <td>
+                        <?= $buku['penerbit']; ?>
+                    </td>
+                    <td>
+                        <?= $buku['tahunterbit']; ?>
+                    </td>
+                    <td><a href="hapus.php?id=<?= $buku['id']; ?>" onclick="return confirm('yakin mau dibuang?');">Hapus</a>
+                        |
+                        <a href="edit.php?id=<?= $buku['id']; ?>">Edit</a>
+                    </td>
+                </tr>
+            <?php endforeach ?>
+        </table>
+    </div>
     <?php if (count($dataBuku) < 1): ?>
         <h1>Belum punya buku itu 😭</h1>
     <?php endif ?>
 
-    <?php if ($activePage > 1): ?>
-        <a class="navigasi blue" href="?halaman=<?= $activePage - 1; ?>">
-            &leftarrow;
-        </a>
-    <?php endif; ?>
+    <div class="bottom-wrapper">
+        <div>
+            <?php if ($activePage > 1): ?>
+                <a class="navigasi blue" href="?halaman=<?= $activePage - 1; ?>">
+                    &leftarrow;
+                </a>
+            <?php endif; ?>
 
-    <?php for ($i = 1; $i <= $totalOfPages; $i++): ?>
-        <?php if ($i == $activePage): ?>
-            <a class="navigasi blue" href="?halaman=<?= $i + 1; ?>">
-                <?php echo $i; ?>
-            </a>
-        <?php else: ?>
-            <a class="navigasi" href="?halaman=<?= $i; ?>">
-                <?php echo $i; ?>
-            </a>
-        <?php endif; ?>
-    <?php endfor; ?>
+            <?php for ($i = 1; $i <= $totalOfPages; $i++): ?>
+                <?php if ($i == $activePage): ?>
+                    <a class="navigasi blue" href="?halaman=<?= $i + 1; ?>">
+                        <?php echo $i; ?>
+                    </a>
+                <?php else: ?>
+                    <a class="navigasi" href="?halaman=<?= $i; ?>">
+                        <?php echo $i; ?>
+                    </a>
+                <?php endif; ?>
+            <?php endfor; ?>
 
-    <?php if ($activePage < 3): ?>
-        <a class="navigasi blue" href="?halaman=<?= $activePage + 1; ?>">
-            &rightarrow;
-        </a>
-    <?php endif; ?>
-    <script src=" script/script.js"></script>
+            <?php if ($activePage < 3): ?>
+                <a class="navigasi blue" href="?halaman=<?= $activePage + 1; ?>">
+                    &rightarrow;
+                </a>
+            <?php endif; ?>
+        </div>
+        <a href="cetakpdf.php" class="cetak" target="_blank">Cetak PDF</a>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script src="script/liveSearch.js"></script>
+
 </body>
 
 </html>

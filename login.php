@@ -18,7 +18,7 @@ if (isset($_SESSION['login'])) {
 
 
 if (isset($_POST["login"])) {
-    echo login($_POST);
+    login($_POST);
 
 }
 ;

@@ -98,15 +98,9 @@ function editBuku($books, $id)
 function cariBuku($keyword)
 {
     global $connect;
-    $indexStart = 0;
-    $booksPerPage = 4;
-    $query = "SELECT * FROM koleksibuku WHERE judul LIKE '%$keyword%' OR pengarang LIKE '%$keyword%' OR penerbit LIKE '%$keyword%' OR tahunterbit LIKE '%$keyword%'";
-    $cariBuku = mysqli_query($connect, $query);
-    $hasilCari = mysqli_num_rows($cariBuku);
-    if($hasilCari > 4){
-        $query . "LIMIT $indexStart, $booksPerPage";
-    }
 
+    $query = "SELECT * FROM koleksibuku WHERE judul LIKE '%$keyword%' OR pengarang LIKE '%$keyword%' OR penerbit LIKE '%$keyword%' OR tahunterbit LIKE '%$keyword%'";
+    $_SESSION['keyword'] = $_POST["keyword"];
     return tampilkanData($query);
 }
 ;

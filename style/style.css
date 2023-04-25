@@ -59,3 +59,8 @@ a {
 .blue {
   background-color: blue;
 }
+.bottom-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
