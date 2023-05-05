@@ -5,8 +5,6 @@ if (!isset($_SESSION['login'])) {
     exit;
 }
 
-
-
 require 'function.php';
 
 $query = mysqli_query($connect, "SELECT * FROM koleksibuku");
@@ -36,6 +34,7 @@ if (isset($_POST['keyword'])) {
 ;
 
 $nomor = 1;
+
 ?>
 
 
@@ -48,6 +47,11 @@ $nomor = 1;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style/style.css?v=<?php echo time(); ?>">
     <title>Koleksi Buku</title>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script> -->
+    <script src="https://code.jquery.com/jquery-3.6.4.js"
+        integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <script src="script/liveSearch.js"></script>
 </head>
 
 <body>
@@ -59,7 +63,7 @@ $nomor = 1;
         <a class="tambah" href="tambahBuku.php">Tambah Buku</a>
         <form action="" method="post">
             <input type="text" name="keyword" autocomplete="off" placeholder="cari judul, pengarang, atau penerbit"
-                class="pencarian" required>
+                class="pencarian" required autofocus>
             <button type="submit" name="cari" class="tombol-cari">Cari Buku</button>
         </form>
     </div>
@@ -132,11 +136,10 @@ $nomor = 1;
                 </a>
             <?php endif; ?>
         </div>
-        <a href="cetakpdf.php" class="cetak" target="_blank">Cetak PDF</a>
+        <a class="cetak" href="cetakpdf.php" target="_blank">Cetak List Buku</a>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
-        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-    <script src="script/liveSearch.js"></script>
+
+
 
 </body>
 
