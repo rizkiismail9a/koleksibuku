@@ -1,4 +1,5 @@
 <?php
+
 $connect = mysqli_connect('localhost', 'root', '', 'belajarphpdasar');
 
 
@@ -95,15 +96,27 @@ function editBuku($books, $id)
     return mysqli_affected_rows($connect);
 }
 //Ini untuk cariBuku
-function cariBuku($keyword)
-{
-    global $connect;
-
-    $query = "SELECT * FROM koleksibuku WHERE judul LIKE '%$keyword%' OR pengarang LIKE '%$keyword%' OR penerbit LIKE '%$keyword%' OR tahunterbit LIKE '%$keyword%'";
-    $_SESSION['keyword'] = $_POST["keyword"];
-    return tampilkanData($query);
-}
-;
+// function cariBuku($keyword)
+// {
+//     global $connect;
+//     $booksPerPage = 4;
+//     $indexStart = 0;
+//     if (isset($_SESSION['halaman'])) {
+//         $activePage = $_SESSION['halaman'];
+//     } else {
+//         $activePage = 1;
+//     }
+//     if ($activePage == 1) {
+//         $indexStart = 0;
+//     } else {
+//         $indexStart = ($activePage - 1) * 4;
+//     }
+//     ;
+//     $query = "SELECT * FROM koleksibuku WHERE judul LIKE '%$keyword%' OR pengarang LIKE '%$keyword%' OR penerbit LIKE '%$keyword%' OR tahunterbit LIKE '%$keyword%' LIMIT $indexStart, $booksPerPage ";
+//     $_SESSION['keyword'] = $_POST["keyword"];
+//     return tampilkanData($query);
+// }
+// ;
 //Ini untuk mendaftarkan diri
 function daftar($data)
 {

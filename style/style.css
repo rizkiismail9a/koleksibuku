@@ -23,7 +23,9 @@ a {
   margin-bottom: 10px;
   color: antiquewhite;
 }
-
+a.back {
+  display: none;
+}
 .addOrSearch {
   display: flex;
   justify-content: space-between;

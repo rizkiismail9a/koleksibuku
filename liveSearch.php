@@ -1,8 +1,12 @@
 <?php
+session_start();
 require 'function.php';
 $keyword = $_GET['keyword'];
-$query = "SELECT * FROM koleksibuku WHERE judul LIKE '%$keyword%' OR pengarang LIKE '%$keyword%' OR penerbit LIKE '%$keyword%' OR tahunterbit LIKE '%$keyword%'";
+$_SESSION["keyword"] = $_GET['keyword'];
+
+$query = "SELECT * FROM koleksibuku WHERE judul LIKE '%$keyword%' OR pengarang LIKE '%$keyword%' OR penerbit LIKE '%$keyword%' OR tahunterbit LIKE '%$keyword%' ";
 $booksFound = mysqli_num_rows(mysqli_query($connect, $query));
+
 $dataBuku = tampilkanData($query);
 $nomor = 1;
 
@@ -62,6 +66,8 @@ $nomor = 1;
 
         <?php endif ?>
     </div>
+
+
 </body>
 
 </html>

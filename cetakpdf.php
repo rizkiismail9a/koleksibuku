@@ -4,8 +4,14 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 require 'function.php';
 // require 'index.php';
-
-$dataBuku = tampilkanData("SELECT * FROM koleksibuku ");
+if (isset($_SESSION["keyword"])) {
+    $keyword = $_SESSION["keyword"];
+    $dataBuku = tampilkanData("SELECT * FROM koleksibuku WHERE judul LIKE '%$keyword%' OR pengarang LIKE '%$keyword%' OR penerbit LIKE '%$keyword%' OR tahunterbit LIKE '%$keyword%' ");
+    $jumlahBuku = count($dataBuku);
+} else {
+    $dataBuku = tampilkanData("SELECT * FROM koleksibuku ");
+    $jumlahBuku = count($dataBuku);
+}
 $nomorList = 1;
 $html = '<!DOCTYPE html>
 <html lang="en">
@@ -62,5 +68,5 @@ $mpdf = new \Mpdf\Mpdf();
 $mpdf->WriteHTML($html);
 
 $mpdf->Output('koleksibuku.pdf', \Mpdf\Output\Destination::INLINE);
-
+unset($_SESSION["keyword"]);
 ?>

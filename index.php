@@ -13,6 +13,7 @@ $booksPerPage = 4;
 $totalOfPages = ceil($booksAvailable / $booksPerPage); //3 halaman
 $indexStart = 0;
 if (isset($_GET['halaman'])) {
+    $_SESSION["halaman"] = $_GET["halaman"];
     $activePage = $_GET['halaman'];
 } else {
     $activePage = 1;
@@ -27,11 +28,11 @@ if ($activePage == 1) {
 $dataBuku = tampilkanData("SELECT * FROM koleksibuku LIMIT $indexStart, $booksPerPage");
 
 
-if (isset($_POST['keyword'])) {
-    $dataBuku = cariBuku($_POST["keyword"]);
+// if (isset($_POST['keyword'])) {
+//     $dataBuku = cariBuku($_POST["keyword"]);
 
-}
-;
+// }
+// ;
 
 $nomor = 1;
 
@@ -48,10 +49,8 @@ $nomor = 1;
     <link rel="stylesheet" href="style/style.css?v=<?php echo time(); ?>">
     <title>Koleksi Buku</title>
     <!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"
-        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script> -->
-    <script src="https://code.jquery.com/jquery-3.6.4.js"
-        integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-    <script src="script/liveSearch.js"></script>
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script src="script/liveSearch.js"></script> -->
 </head>
 
 <body>
@@ -61,6 +60,7 @@ $nomor = 1;
     <h1>Perpustakaanku</h1>
     <div class="addOrSearch">
         <a class="tambah" href="tambahBuku.php">Tambah Buku</a>
+        <a class="back" href="index.php">Kembali ke Home</a>
         <form action="" method="post">
             <input type="text" name="keyword" autocomplete="off" placeholder="cari judul, pengarang, atau penerbit"
                 class="pencarian" required autofocus>
@@ -111,7 +111,7 @@ $nomor = 1;
     <?php endif ?>
 
     <div class="bottom-wrapper">
-        <div>
+        <div class="paginasi">
             <?php if ($activePage > 1): ?>
                 <a class="navigasi blue" href="?halaman=<?= $activePage - 1; ?>">
                     &leftarrow;
@@ -142,5 +142,6 @@ $nomor = 1;
 
 
 </body>
+<script src="script/script.js"></script>
 
 </html>
